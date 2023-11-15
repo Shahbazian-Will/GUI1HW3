@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplication Table</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <h2>Will's Dynamic Multiplication Table</h2>
+    <h3>Enter four numbers, -50 through 50.</h3>
+
+    <!--Create the form and button. Do not allow input <-50 or >50.-->
+
+    <form id="numberForm">
+        <label for="number1">Column Value 1:</label>
+        <input type="text" id="number1" name="number1" maxlength="3" pattern="-?\d+" title="Enter a number -50 to 50"
+            required><br>
+
+        <label for="number2">Column Value 2:</label>
+        <input type="text" id="number2" name="number2" maxlength="3" pattern="-?\d+" title="Enter a number -50 to 50"
+            required><br>
+
+        <label for="number3">Row Value 1:</label>
+        <input type="text" id="number3" name="number3" maxlength="3" pattern="-?\d+" title="Enter a number -50 to 50"
+            required><br>
+
+        <label for="number4">Row Value 2:</label>
+        <input type="text" id="number4" name="number4" maxlength="3" pattern="-?\d+" title="Enter a number -50 to 50"
+            required><br>
+
+        <button type="button" onclick="generateTable()">Generate Table</button>
+    </form>
+
+    <div id="result"></div>
+
+    <!--Javascript section to create the table (or display error message)-->
+
+    <script>
+        function generateTable() {
+            // Read values from the form
+            var num1 = parseInt(document.getElementById("number1").value);
+            var num2 = parseInt(document.getElementById("number2").value);
+            var num3 = parseInt(document.getElementById("number3").value);
+            var num4 = parseInt(document.getElementById("number4").value);
+
+            // Validation and error message, if needed
+            if (isNaN(num1) || isNaN(num2) || isNaN(num3) || isNaN(num4) ||
+                num1 < -50 || num1 > 50 || num2 < -50 || num2 > 50 ||
+                num3 < -50 || num3 > 50 || num4 < -50 || num4 > 50) {
+                document.getElementById("result").innerHTML = "<p>Error: Please enter valid numbers between -50 and 50.</p>";
+                return;
+            }
+
+            var resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = "<h3>Will's Multiplication Table</h3>";
+
+            // Create table element
+            var table = document.createElement("table");
+            table.border = "1";
+            table.className = "multiplication-table";
+
+            // For loop that builds the table by inserting cells
+            var headerRow = table.insertRow();
+            headerRow.insertCell();
+            for (var i = Math.min(num3, num4); i <= Math.max(num3, num4); i++) {
+                var headerCell = headerRow.insertCell();
+                headerCell.textContent = i;
+            }
+
+            // For loops that insert the correct values in their corresponding positions
+            for (var i = Math.min(num1, num2); i <= Math.max(num1, num2); i++) {
+                var row = table.insertRow();
+                var headerCell = row.insertCell();
+                headerCell.textContent = i;
+
+                for (var j = Math.min(num3, num4); j <= Math.max(num3, num4); j++) {
+                    var cell = row.insertCell();
+                    cell.textContent = i * j;
+                }
+            }
+
+            resultDiv.appendChild(table);
+        }
+    </script>
+
+</body>
+
+</html>
